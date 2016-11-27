@@ -1,35 +1,306 @@
-# AdonisJs Application
+# Alkalmazások fejlesztése - 2. beadandó 
 
-This repo is the pre-configured project structure to be used for creating ambitious web servers using AdonisJs.
+## 0. Kis bevezető (Szerveroldal)
 
-> Make sure to star the official [framework repo](https://github.com/adonisjs/adonis-framework) or [tweet on twitter](https://twitter.com/intent/tweet?url=http://adonisjs.com&text=I%20am%20using%20AdonisJs,%20a%20practical%20MVC%20framework%20for%20nodejs&hashtags=nodejs,adonisframework) :wave:
+A program egy nagyon egyszerű kis többszemélyes játék. A játék arról szól hogy a különböző küldetésekben végül ki jut el a legvégéig.
+A klánok szükségesek ahhoz hogy a vége felirathoz eljussanak az egyes játékosok. Jelenleg a vége még nincs implementálva ugyanis
+azt a kliensoldali megoldásokkal lehetséges szépen megoldani.
 
-## Story
+A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd jó szórakozást a játékhoz.
 
-One day a :boy: wanted to write a web application to slowly turn it into a business and make some :moneybag: for better living. Being a Javascript lover, he decided to go with Node.js. 
+## 1. Követelményanalízis
 
-Hosting Node.js applications are cheap and offers lots of mordern programming concepts to build realtime data rich applications.
+### 1.1 Követelmények
 
-He was so excited and full of energy to build this application and share it with the world. But soon his dreams started struggling with the amount of decisions he has to make, just to build an MVP of his idea. These decisions were not even related to the business and was about.
+#### Funkcionális követelmények
+ - Regisztráció
+ - Bejelentkezés
+ - Klánok vizsgálata
+ - Bejelentkezett felhasználóknak   
+   - Klán létrehozása
+   - Boltban való böngészés
+   - Klánhoz való csatlakozási kérelem
+   - Klánhoz csatlakozás ha érkezett meghívó
+   - Küldetésekben haladni (naponta egyszer)
+ - Klánon belüli bejelentkezett felhasználóknak
+   - Tagok
+     - Adományozás
+   - Admin/helyettes
+     - Kirúgás
+     - Új emberek meghívása
+     - Csatlakozási kérelmek elfogadása
+   - Készítő
+     - Adminisztrátorrá való fölfejlesztés
+#### Nem funkcionális követelmények
+  - Felhasználóbarát: Megfelelően elhatárolt funkciók. Világos látható színekkel írt betűk. Ésszerű elrendezés
+  - Biztonság: Jelszóval védett funkciók. A jelszavak titkosítottak.
+    A különböző űrlapoknál egy hibalistában kijelzi a program a hibákat.
+  - Gyors működés: Adatbázisban operáló program, gyors kereséssekkel hamar előállítja a kívánt eredményeket.
+  - Változatos történetek: A küldetések folyamatosan bővülhetnek. Újabb történettel rendelkező küldetések jelenhetnek meg.
 
-1. How should I structure my application?
-2. Why do I need to download 20 modules just to start an HTTP server, parse request body and upload files.
-3. How should I manage the authentication on website, and expose public API for others to interact with the data?
-4. What do I need to do to secure my application from web attacks and how to handle CORS?
-5. Why do I have ton of `require` statements everywhere?
-6. How the heck should I test my code? I am having hard time mocking dependencies.
-7. **WHY THE :fish:** there are no standards to write some code. Hell I am not going to write this application and going for a walk.
+### 1.2 Szakterületi fogalomjegyzék
+
+### 1.3 Használatieset-modell
+    
+#### Szerepek
+
+- Vendég
+- Bejelentkezett Felhasználó
+- Klán 
+  - Tag 
+  - Admin/helyettes 
+  - Készítő
+
+#### Modell
+
+#### Folyamatok 
+
+##### Egy egyszerű küldetés megoldása
+
+ 1. Először bejelentkezünk a szolgáltatásba
+ 2. Kiválasztjuk a küldetés listát a profilnál legördülő menünél
+ 3. Kiválasztjuk a következő küldetést
+ 4. Ha csata van akkor lekell küzdeni az ellenfelet, különben egy egyszerű feladványt/feladatot kell megoldani
+ 5. Ha sikerül akkor megkapjuk a küldetésért járó díjat különben újra.
 
 
-## Not Anymore
+![Küldetés](images/battleFolyamat.png)
 
-This is so frustating. Node.js is a beautiful language but all of the above questions have never been answered together. We all love writing small concise modules but business are not created by downloading 20 modules.
+## 2. Tervezés
 
-Developers needs productive tools, so that they can focus on what matters, and not on downloading & finding the best ways to combine these small modules. 
+### 2.1 Oldaltérkép
 
-## AdonisJs
+#### Publikus
+  - Főoldal
+  - Klán részletek (tagjai, neve, fejlesztéseinek állapota)
+  - Játékos adatai
+#### Bejelentkezett Felhasználó (Klán nélküli)
+  - Bolt 
+  - Küldetések 
+  - Játékos adatai 
+    - Klán készítése
+    - Csatlakozási kérelem küldése
+    - Meghívó elfogadása (ha van)
+#### Bejelentkezett Felhasználó (Klán)
+  - Bolt 
+  - Küldetések 
+  - Játékos adatai 
+    - Klán készítése
+    - Csatlakozási kérelem küldése
+    - Meghívó elfogadása (ha van)
+  - Klán adatai
+    - Adományozás
+#### Bejelentkezett Felhasználó (Klán admin)
+  - Klán adatai
+    - Kirúgás
+    - Meghívó küldése
+    - Kérelmek elfogadása
+#### Bejelentkezett Felhasználó(Klán készítő)
+   - Klán adatai
+     - Előfejlesztés
 
-AdonisJs is a beautiful framework with pre-configured answers to all of your questions. We not only created this framework, but validated the features of framework with realtime problems and still improving every bit, so that you have to write less and structured code.
+### 2.2 Végpontok:
+ - GET/
+   - /: Főoldal
+   - /login: bejelntkező oldal 
+   - /register: regisztrációs oldal 
+   - /logout: kijelentkezés
+   - /shop: bolt 
+   - /quests: küldetések listája
+   - /quests/:quest_id: `quest_id` küldetés mutatása
+   - /quests/:quest_id/battle : A `quest_id`-hoz tartozó csata oldal megnyitása (kliens oldali rész kell még)
+   - /create_clan: Klán készítése
+   - /players/:user_name
+     - /invites: meghívók elfogadásának az oldala
+     - /ask: kérés küldő oldal
+     - /details: `user_name` játékosnak a játékos adatlapjának a mutatása
+   - /clans/:clan_name
+     - /donation: adományozó oldal
+     - /invite: meghívók küldésének az oldala
+     - /requests: kérések elfogadásának oldala
+     - /details: `clan_name` klánnak a részletes adatlapja
+     - /kick: játékos eltávolításának oldala
+     - /promote: játékos előléptetésének oldala
+  
+  - POST/
+    - /clans/:clan_name
+      - /details: clán adatainak lekérése
+      - /donation : adományozás a céhnek
+      - /invite : játékos meghívása céhbe
+      - /requests : játékos csatlakozási kérelmének elfogadása
+      - /kick : játékos kirúgása a céhből
+      - /promote : játékos előléptetése vagy lefokozása a céhben
+    - /players/:user_name
+      - /details : tárgy eladása az eszköztárból
+      - /invites : a meghívó céhbe való csatlakozás
+      - /ask : csatlakozási kérelem elküldése
+    - /login : Bejelentkezés
+    - /create_clan : klán létrehozása
+    - /register : Regisztráció az oldalra
+    - /shop : tárgy vásárlása
+    - /quests/quest_id : küldetés teljesítése
 
-This time a :boy: will write his ambitious application and will set the world on :fire:``. Don't hesitate to work on your ideas and we promise to improve the framework every :sunny: and :first_quarter_moon_with_face: and YESSSS do not forget to star us on [:octocat:](https://github.com/adonisjs/adonis-framework)
+### 2.3 Felhasználó modell
 
+**Felhasználó**
+
+![Felhasználó](images/user.png)
+
+
+**Klán tag**
+
+![Tag](images/member.png)
+
+
+**Klán admin**
+
+![Clan admin](images/admin.png)
+
+
+**Klán készítő**
+
+![Klán készítő](images/creator.png)
+
+### 2.4 Mockup
+
+**Készítőként klán oldal mockup**
+
+![Készítőként klán oldal mockup](images/clanLoginCreatorMockup.png)
+
+**Bejelentkezés mockup**
+
+![Bejelentkezés mockup](images/loginMockup.png)
+
+**Főoldal mockup**
+
+![Főoldal mockup](images/mockupMainPage.png)
+
+**Játékos adatlap mockup**
+
+![Játékos adatlap mockup](images/playerMockup.png)
+
+**Küldetés lista mockup**
+
+![Küldetés lista mockup](images/questListMockup.png)
+
+**Példa quest mockup**
+
+![Példa quest mockup](images/questMockup.png)
+
+**Regisztráció mockup**
+
+![Regisztráció mockup](images/registerMockup.png)
+
+**Promote kick invite, shop mockup**
+
+![Promote, kick, shop, invite mockup](images/promoteKickInvitemockup.png)
+
+
+
+### 2.5 Megvalósítás
+
+**Főoldal**
+![Főoldal](images/mainpagelogin.png)
+
+**Meghívás**
+![Meghívás](images/clanInvite.png)
+
+**Klán részletei készítőként**
+![Klán főoldala készítőként](images/clanLoginCreator.png)
+
+**Adományozás**
+![Adományozás](images/donate.png)
+
+**Egy példa küldetés**
+![Példa küldetés](images/exampleQuest.png)
+
+**Bejelentkezés**
+![Login](images/mainpagelogin.png)
+
+**Játékos adatlapja**
+![Játékos adatlap bejelentkezettként](images/profileLogin.png)
+
+**Küldetések listája**
+![küldetések listája](images/questList.png)
+
+**Bolt felület**
+![Bolt](images/shoplogin.png)
+
+
+## 3. Implementáció
+
+### 3.1 Adatbázisterv
+
+![Database terv](images/database.png)
+
+### 3.2 Fejlesztőkörnyezet
+
+Lokális IDE: Visual Studio Code 
+ - Github account nem szükséges, de hasznos
+ - Hozzunk létre egy munkakönyvtárat
+ - node.js-el töltsük le az adonisJS-t
+ - adonissJS hozzuk létre a fejlesztő környezetet
+ - Ezen a munkaterületen elkezdhetünk kódolni
+ - Miután végeztünk a munkával elmenthetjük lokálisan vagy github-ra
+ - Githubra először a Visual Studio-n belül a Stage All-al kijelöljük a pusholni kívánt 
+ fájlokat majd commit-áljuk őket. Ezután a Push paranccsal föltölthetjük a github accountunkra
+
+### 3.3 Könyvtárstruktúra
+- Controllers
+  - ClanController.js
+  - ItemController.js
+  - PlayerController.js
+  - QuestController.js
+  - UpgradeController.js
+  - UserController.js
+
+- Models
+  - BasicJournal.js
+  - Clan.js
+  - Hooks
+  - Inventory.js
+  - Item.js
+  - Member.js  
+  - Player.js
+  - Quest.js
+  - Token.js
+  - Upgrade.js
+  - User.js
+- Migrations
+  - 1476890630864_create_users_table.js
+  - 1476890630865_create_tokens_table.js
+  - 1476890776416_clans.js
+  - 1479026035787_players.js
+  - 1479026049180_items.js
+  - 1479026057849_quests.js
+  - 1479036276167_basic_journals.js
+  - 1479037149688_inventories.js
+  - 1479058984745_upgrades.js
+  - 1479212234298_members.js
+  - 1480193661488_invites.js
+  - 1480240245051_requests.js
+  - 1480268487520_battles.js
+- Views
+  - askForInvite.njk
+  - clan.njk
+  - createClan.njk
+  - donation.njk
+  - invite.njk
+  - inviteRequests.njk
+  - kick.njk
+  - layout.njk
+  - listInvites.njk
+  - login.njk
+  - main.njk
+  - master.njk
+  - player.njk
+  - promote.njk
+  - questList.njk
+  - quests
+  - register.njk
+  - shop.njk
+  - welcome.njk
+- server.js
+
+## 4. Tesztelés
+TBC
