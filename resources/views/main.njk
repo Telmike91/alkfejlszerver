@@ -1,0 +1,26 @@
+{% extends 'layout' %}
+
+{% block content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Description</div>
+    <div class="panel-body">
+        <p>In the game you must cooperate with others to get to the last mission.</p> 
+        
+        <p>The game features clan bonuses, items to help you on your adventure
+        To begin the game, first you must register an account. Then when the admin makes the quests available, you may start the quests. You should join
+        or create a clan to advance to the last level as the quests become exponentially tougher.</p>
+        <p>Gold luck and have fun.</p>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Clans</div>
+    <div class="panel-body">
+        <ol>
+           {% for clan in clans %}           
+            <li><a href="/clans/{{ clan.clan_name }}/details">{{ clan.clan_name }}</a></li>
+           {% endfor %}
+        </ol>
+    </div>
+</div>
+{% endblock %}

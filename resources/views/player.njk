@@ -1,0 +1,63 @@
+{% extends 'layout' %}
+
+{% block content %}
+    <div class="list-group">
+    <h4 class="list-group-item-heading">Clan</h4>
+    {% if player.clan_name!=NULL %}
+        <a class="list-group-item"  href="/clans/{{ player.clan_name }}/details">{{ player.clan_name }}</a>
+    {% elif currentUser.username == player.username %}
+            <a href="/create_clan" class="list-group-item">
+                Create Clan
+            </a>
+            <a class="list-group-item" href="/players/{{ player.username }}/ask">
+                Ask for invites
+            </a>   
+            {% if invites.length > 0 %}
+            <a class="list-group-item" href="/players/{{player.username}}/invites">
+                Invites
+            </a>
+              {% endif %}         
+    {% else %}
+        <p class = "list-group-item">Clanless</p>
+    {% endif %} 
+    </div>
+    <p>Strength : {{ player.STR }}</p>
+    <p>Vitality : {{ player.VIT }}</p>
+    <p>Luck : {{ player.LCK }}</p>
+    <p>Gold : {{ player.gold }}</p>
+
+    {% if currentUser.username == player.username or (visitor.clan_name == player.clan_name and visitor.privilege == 3) %}
+    <h2>Items</h2>
+    <table class="table table-hover">
+        <tr>
+        <thead>
+            <th>Name</th>
+            <th>Strength</th>
+            <th>Vitality</th>
+            <th>Luck</th>
+            <th>Sell gold</th>
+            {%if currentUser.username == player.username %}
+            <th></th>
+            {% endif %}
+        </thead>
+        </tr>    
+    {% for item in items %}
+        <tr>    
+            <td>{{ item.item_name }}</td>
+            <td>{{ item.STR }}</td>
+            <td>{{ item.VIT }}</td>
+            <td>{{ item.LCK }}</td>
+            <td>{{ item.sell }}</td>
+            {% if currentUser.username == player.username %}
+                <form method="POST">
+                    {{ csrfField }}
+                    <input type="hidden" name="item" value="{{ item.item_name }}">
+                    <td><input type="submit" class="btn" value="Sell"/></td>
+                </form>
+            {% endif %}
+        </tr>
+    {% endfor %}
+            
+    </table>
+    {% endif %}
+{% endblock %}

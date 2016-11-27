@@ -1,0 +1,47 @@
+{% extends 'layout' %}
+
+{% block content %}
+
+{% if old('errors') %}
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Hibalista</h3>
+  </div>
+  <div class="panel-body">
+    <ul>
+      {% for error in old('errors') %}
+      <li>{{ error.message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
+<h1>Welcome to my humble shop! How can I be your service?</h1>
+<table class="table table-hover table-striped"
+    <thead>
+    <tr>
+        <th>Item name</th>
+        <th>Strength</th>
+        <th>Vitality</th>
+        <th>Luck</th>
+        <th>Cost</th>
+        <th></th>
+    </tr>  
+    </thead>  
+{% for item in items %}
+    <tr>
+        <td>{{ item.item_name }}</td>
+        <td>{{ item.STR }}</td>
+        <td>{{ item.VIT }}</td>
+        <td>{{ item.LCK }}</td>
+        <td>{{ item.buy }}</td>
+        <form method="POST">
+            {{ csrfField }}
+            <input type="hidden" name="item" value="{{ item.item_name }}">
+            <td><input type="submit" class="btn" value="Buy"/></td>
+        </form>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

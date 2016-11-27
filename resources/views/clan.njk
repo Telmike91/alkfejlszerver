@@ -1,0 +1,91 @@
+{% extends 'layout' %}
+
+{% block content %}
+    <h1>{{ clan.clan_name }}</h1>
+    <div class="list-group">
+        {% if player.clan_name == clan.clan_name %}
+        <a class="list-group-item" href="/clans/{{ clan.clan_name }}/donation">
+            Donate
+            <span class="badge">Gold: {{ clan.gold }}</span>
+        </a> 
+        {% endif %}            
+    </div>
+    <h2>Members</h2>
+    <table class="table table-hover table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Privilege</th>
+        </thead>
+        {% for member in members %}
+        <tr>
+            <td>{{ member.username }}</td>
+            <td>
+            {% if member.privilege === 1 %} Member 
+            {% elif member.privilege === 2 %} Admin
+            {% elif member.privilege === 3 %} Creator
+            {% endif %}
+            <td>
+        </tr>
+        {% endfor %}                        
+    </table>
+    {% if player.privilege >= 2 and player.clan_name == clan.clan_name %} 
+        <div class="list-group">
+            <a href="/clans/{{ clan.clan_name }}/invite" class="list-group-item">
+                <p class="list-group-item-text">
+                Invite new players
+                </p>
+            </a>
+            <a href="/clans/{{ clan.clan_name }}/requests" class="list-group-item">
+            <p class="list-group-item-text">Check requests</p>
+            </a>
+            <a href="/clans/{{ clan.clan_name }}/kick" class="list-group-item">
+            <p class="list-group-item-text">Kick</p>
+            </a>
+        {% if player.privilege == 3 %}
+            <a href="/clans/{{ clan.clan_name }}/Promote" class="list-group-item">
+            <p class="list-group-item-text">Promote</p>
+            </a>
+        {% endif %}
+        </div>
+    {% endif %}
+    <h2>Upgrades</h2>
+
+    {% if old('errors') %}
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">Hibalista</h3>
+            </div>
+            <div class="panel-body">
+                <ul>
+                {% for error in old('errors') %}
+                <li>{{ error.message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+    <table class="table table-hover table-striped" style = "width: 100%">
+        <thead>
+            <th>Upgrade type</th>
+            <th>Lvl</th>
+            <th>Next Cost</th>     
+            <th>Amount</th> 
+            {% if player.privilege >= 2 and player.clan_name == clan.clan_name %}<th>Build</th> {% endif %}
+        </thead>
+        {% for upgrade in upgrades %}
+        <tr>
+            <td>{{ upgrade.upgrade }}</td>
+            <td>{{ upgrade.lvl }}</td>
+            <td>{{ upgrade.cost }}</td>
+            <td>{{ upgrade.amount }}</td>
+            {% if player.privilege >= 2 and player.clan_name == clan.clan_name %}
+                <form method="POST">
+                    {{ csrfField }}
+                    <input type="hidden" value={{upgrade.upgrade}} name="upgrade" />
+                    <td><input class="btn" type ="submit" value="Purchase" /></td>
+                </form> 
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

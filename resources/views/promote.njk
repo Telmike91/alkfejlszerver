@@ -1,0 +1,51 @@
+{% extends 'layout' %}
+
+{%block content%}
+{% if old('errors') %}
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Hibalista</h3>
+  </div>
+  <div class="panel-body">
+    <ul>
+      {% for error in old('errors') %}
+      <li>{{ error.message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+    <table class="table table-hover table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Privilege</th>
+            <th></th>
+        </thead>
+        {% for member in members %}
+        <tr>
+            <td>{{ member.username }}</td>
+            <td>
+            {% if member.privilege === 1 %} Member 
+            {% elif member.privilege === 2 %} Admin
+            {% elif member.privilege === 3 %} Creator
+            {% endif %}
+            {% if member.privilege === 1%}
+            <form method="POST">
+                {{ csrfField}}        
+                <input type="hidden" value="promote" name="promote" /> 
+                <input type="hidden" value={{member.username}} name="username" />  
+                <td><button type="submit" class="btn btn-primary">Promote</button></td>
+            </form>
+            {% endif %}
+            {% if member.privilege === 2%}
+            <form method="POST">
+                {{ csrfField}}        
+                <input type="hidden" value="demote" name="promote" />  
+                <input type="hidden" value={{member.username}} name="username" />  
+                <td><button type="submit" class="btn btn-warning">Demote</button></td>
+            </form>
+            {% endif %}
+        </tr>
+        {% endfor %}                        
+    </table>
+{%endblock%}

@@ -1,0 +1,52 @@
+{% extends 'layout' %}
+
+{% block content %}
+    <p>Welcome!</p>
+
+    <p>From now on you and your friends will begin a quest for glory. 
+    And now you will have to make your first decision.
+    What will you choose I wonder?</p>
+
+    <p>There are three options: Gold, an item, knowledge. 
+    To proceed you must choose. But be careful! 
+    You must choose wisely, otherwise you will be a burden to your team.
+    I see you do not follow me. Let me clarify. If you choose knowledge, you might be able to advance forward in battles.
+    However if your teammates choose the same, some time after you might not be able to proceed, due to not having buffs from the clan.
+    </p>        
+
+    <p>
+    Bear this in your mind. Communicate with your teammates. And choose.
+    </p>
+
+    <form method="POST">
+        {{ csrfField }}
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Rewards</label>
+            <div class="col-lg-10">
+                <div class="radio">
+                <label>
+                    <input type="radio" name="reward" value="gold" required >
+                    Gold 150
+                </label>
+                </div>
+                <div class="radio">
+                <label>
+                    <input type="radio" name="reward" value="item">
+                    Item Blade (+7 to STR and +3 to VIT)
+                </label>
+                </div>
+                <div class="radio">
+                <label>
+                    <input type="radio" name="reward" value="knowledge">
+                    Knowledge (+5 to all stats)
+                </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button type="submit" class="btn btn-primary">Complete</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
