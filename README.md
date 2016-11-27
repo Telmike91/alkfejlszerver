@@ -13,6 +13,7 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
 ### 1.1 Követelmények
 
 #### Funkcionális követelmények
+
  - Regisztráció
  - Bejelentkezés
  - Klánok vizsgálata
@@ -40,6 +41,7 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
   - Változatos történetek: A küldetések folyamatosan bővülhetnek. Újabb történettel rendelkező küldetések jelenhetnek meg.
 
 ### 1.2 Szakterületi fogalomjegyzék
+  Nincs
 
 ### 1.3 Használatieset-modell
     
@@ -76,6 +78,7 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
   - Főoldal
   - Klán részletek (tagjai, neve, fejlesztéseinek állapota)
   - Játékos adatai
+
 #### Bejelentkezett Felhasználó (Klán nélküli)
 
   - Bolt 
@@ -84,6 +87,7 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
     - Klán készítése
     - Csatlakozási kérelem küldése
     - Meghívó elfogadása (ha van)
+    
 #### Bejelentkezett Felhasználó (Klán)
 
   - Bolt 
@@ -94,12 +98,14 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
     - Meghívó elfogadása (ha van)
   - Klán adatai
     - Adományozás
+    
 #### Bejelentkezett Felhasználó (Klán admin)
 
   - Klán adatai
     - Kirúgás
     - Meghívó küldése
     - Kérelmek elfogadása
+    
 #### Bejelentkezett Felhasználó(Klán készítő)
 
    - Klán adatai
