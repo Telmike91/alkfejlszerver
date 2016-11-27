@@ -32,6 +32,7 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
    - Készítő
      - Adminisztrátorrá való fölfejlesztés
 #### Nem funkcionális követelmények
+
   - Felhasználóbarát: Megfelelően elhatárolt funkciók. Világos látható színekkel írt betűk. Ésszerű elrendezés
   - Biztonság: Jelszóval védett funkciók. A jelszavak titkosítottak.
     A különböző űrlapoknál egy hibalistában kijelzi a program a hibákat.
@@ -71,10 +72,12 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
 ### 2.1 Oldaltérkép
 
 #### Publikus
+
   - Főoldal
   - Klán részletek (tagjai, neve, fejlesztéseinek állapota)
   - Játékos adatai
 #### Bejelentkezett Felhasználó (Klán nélküli)
+
   - Bolt 
   - Küldetések 
   - Játékos adatai 
@@ -82,6 +85,7 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
     - Csatlakozási kérelem küldése
     - Meghívó elfogadása (ha van)
 #### Bejelentkezett Felhasználó (Klán)
+
   - Bolt 
   - Küldetések 
   - Játékos adatai 
@@ -91,11 +95,13 @@ A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd j
   - Klán adatai
     - Adományozás
 #### Bejelentkezett Felhasználó (Klán admin)
+
   - Klán adatai
     - Kirúgás
     - Meghívó küldése
     - Kérelmek elfogadása
 #### Bejelentkezett Felhasználó(Klán készítő)
+
    - Klán adatai
      - Előfejlesztés
 
