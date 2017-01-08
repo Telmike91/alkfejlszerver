@@ -387,11 +387,11 @@ A program bármilyen operációs rendszeren futtatható. Javascript szükséges 
 
 ### 6.2 Telepítés 
 #### Telepítés előtt pár szükséges lépés
-  - Kegy NodeJS és az npm amit itt lehet letölteni : [www.npmjs.com/get-npm](https://)
+  - Kegy NodeJS és az npm amit itt lehet letölteni : [www.npmjs.com/get-npm](https://www.npmjs.com/get-npm]()
   - Internet elérés
 
 #### Telepítés
-1. Látogasson el a 	[github.com/Telmike91/alkfejlszerver](https://) oldalra
+1. Látogasson el a 	[github.com/Telmike91/alkfejlszerver](https://github.com/Telmike91/alkfejlszerver) oldalra
 2. Itt kattintson a **"Clone and Download"** gombra, és azon belül kattintson a **"Download as Zip"** gombra.
 3. A letöltött állományt csomagoljuk ki
 4. **npm i** parancsot adjuk ki parancssorban a kicsomagolt állomány mappájában.
