@@ -1,4 +1,4 @@
-# Alkalmazások fejlesztése - 2. beadandó 
+# Alkalmazások fejlesztése - 2. beadandó + 3.Beadandó
 
 ## 0. Kis bevezető (Szerveroldal)
 
@@ -6,6 +6,9 @@ A program egy nagyon egyszerű kis többszemélyes játék. A játék arról sz�
 A klánok szükségesek ahhoz hogy a vége felirathoz eljussanak az egyes játékosok.
 
 A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd jó szórakozást a játékhoz.
+
+## 0.1. Kis bevezető (Kliensoldal)
+A 3. beadandóhoz való dokumentáció a 4. Fejezettől kezdődik.
 
 ## 1. Követelményanalízis
 
