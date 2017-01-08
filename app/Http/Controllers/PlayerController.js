@@ -66,7 +66,7 @@ class PlayerController {
 
     * ask(request, response) {
         const user_name = request.currentUser.username
-        const player = yield Database.select("*").from("players").where("username", request.param("username"));
+        const player = yield Database.select("*").from("players").where("username", user_name).first();
         if(user_name == player.username && player.clan_name == null){
             const clans = yield Database.raw("SELECT clan_name FROM clans EXCEPT SELECT clan_name FROM requests WHERE requests.username = ? EXCEPT SELECT clan_name FROM invites WHERE invites.username = ?", [request.currentUser.username, request.currentUser.username])
             yield response.sendView("askForInvite", {
@@ -85,8 +85,6 @@ class PlayerController {
             {const clan_name = request.except("_csrf");
 
             const exist = yield Database.select("clan_name").from("clans").where("clan_name", clan_name.clan_name);
-
-            console.log("////////////////" + exist + " ////////" + exist.length)
 
             if (exist.length != 1) {
                 yield request

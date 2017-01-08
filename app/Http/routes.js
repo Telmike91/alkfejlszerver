@@ -2,7 +2,7 @@
 
 const Route = use('Route')
 
-Route.group('clans', function() {
+Route.group('clans', function () {
     Route.get('/donation', 'ClanController.donate').middleware('auth');
     Route.get('/invite', 'ClanController.invite').middleware('auth');
     Route.get('/requests', 'ClanController.requests').middleware('auth');
@@ -16,10 +16,18 @@ Route.group('clans', function() {
     Route.post("/kick", "ClanController.doKick").middleware("auth");
     Route.post("/promote", "ClanController.doPromote").middleware('auth');
     Route.post('/details', 'UpgradeController.purchase').middleware('auth');
-    
+
 }).prefix('/clans/:clan_name')
 
-Route.group('players', function() {
+Route.group('ajax', function () {
+    Route.post('/clans/:clan_name/details', 'UpgradeController.ajaxPurchase').middleware('auth');
+    Route.post("/login", "UserController.ajaxLogin");
+    Route.post("/shop", "ItemController.ajaxBuy").middleware("auth");
+    Route.post("/quests/:quest_id/complete", "QuestController.ajaxComplete").middleware("auth");
+    Route.post("/register", "UserController.ajaxRegister");
+}).prefix('/ajax')
+
+Route.group('players', function () {
     Route.get('/invites', 'PlayerController.invites').middleware('auth');
     Route.get('/ask', 'PlayerController.ask').middleware('auth');
     Route.get('/details', 'PlayerController.details');
@@ -28,7 +36,6 @@ Route.group('players', function() {
     Route.post('/invites', 'PlayerController.join').middleware('auth');
     Route.post("/ask", "PlayerController.doAsk").middleware('auth')
 }).prefix('/players/:user_name')
-
 
 Route.get('/', 'ClanController.index');
 Route.get('/create_clan', 'ClanController.create').middleware('auth');

@@ -171,6 +171,8 @@ class ClanController {
             members: members,
             player: player
         })
+
+        response.redirect('back');
     }
 
     * doDonate(request, response) {    

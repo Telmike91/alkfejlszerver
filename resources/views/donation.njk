@@ -1,5 +1,9 @@
 {% extends 'layout' %}
 
+{% block styles %}
+    <link href="/money.css" rel='stylesheet' type='text/css'>
+{% endblock %}
+
 {% block content %}
 
 {% if old('errors') %}
@@ -18,13 +22,17 @@
 {% endif %}
 
 {% if player.clan_name == clan.clan_name %}
-    Your gold amount : {{ player.gold }}
+    <p>Your gold amount : <span id="gold">{{ player.gold }}</span> <span class="expense" id="newGold"></span></p>
 <form name = "test" method="POST">
     {{ csrfField }}
     <input required type = "number" name = "donation" min = "0" max = {{player.gold}} step="1" />
-    <input type = "submit" value = "Donate" />
+    <input class="btn" type = "submit" value = "Donate" />
 </form>
 {% else %}
     <p>You are not a member of the clan!</p>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  <script src="/scripts/donate.js"></script>
 {% endblock %}

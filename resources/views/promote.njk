@@ -30,20 +30,24 @@
             {% elif member.privilege === 3 %} Creator
             {% endif %}
             {% if member.privilege === 1%}
+            <td>
             <form method="POST">
-                {{ csrfField}}        
+                {{ csrfField }}        
                 <input type="hidden" value="promote" name="promote" /> 
                 <input type="hidden" value={{member.username}} name="username" />  
-                <td><button type="submit" class="btn btn-primary">Promote</button></td>
+                <input type="submit" class="btn btn-primary" value="Promote">
             </form>
+            </td>
             {% endif %}
             {% if member.privilege === 2%}
+            <td>
             <form method="POST">
                 {{ csrfField}}        
                 <input type="hidden" value="demote" name="promote" />  
                 <input type="hidden" value={{member.username}} name="username" />  
-                <td><button type="submit" class="btn btn-warning">Demote</button></td>
-            </form>
+                <input type="submit" class="btn btn-warning" value="Demote">
+                </form>
+            </td>
             {% endif %}
         </tr>
         {% endfor %}                        

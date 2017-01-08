@@ -10,7 +10,11 @@
         <p class="list-group-item-text">Completed</p> 
    {% else %}
         {% if doable == "Yes" %}
+            {% if quest.quest_type == "Battle" %}
+            <a class="list-group-item" href="/quests/{{ quest.quest_id }}/battle">Accept</a>
+            {% else %}
             <a class="list-group-item" href="/quests/{{ quest.quest_id }}">Accept</a>
+            {% endif %}
         {% else %}
             <p class="list-group-item-text">Not able</p>
         {% endif %}

@@ -11,14 +11,14 @@
                 <td>{{ request.username }}</td>
                 <form method="POST">
                     {{ csrfField }}
-                <td>   
-                    <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-1">
-                            <input type="hidden" name="username" value={{request.username}} />
-                            <button type="submit" class="btn btn-primary">Accept</button>
+                    <td>   
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-1">
+                                <input type="hidden" name="username" value={{request.username}} />
+                                <button type="submit" class="btn btn-primary">Accept</button>
+                            </div>
                         </div>
-                    </div>
-                </td>
+                    </td>
                 </form>
             </tr>
         {% endfor %}    

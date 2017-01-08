@@ -3,8 +3,7 @@
 ## 0. Kis bevezető (Szerveroldal)
 
 A program egy nagyon egyszerű kis többszemélyes játék. A játék arról szól hogy a különböző küldetésekben végül ki jut el a legvégéig.
-A klánok szükségesek ahhoz hogy a vége felirathoz eljussanak az egyes játékosok. Jelenleg a vége még nincs implementálva ugyanis
-azt a kliensoldali megoldásokkal lehetséges szépen megoldani.
+A klánok szükségesek ahhoz hogy a vége felirathoz eljussanak az egyes játékosok.
 
 A jelenlegi beállításokkal lehet tesztelni az alapműveletek. Később majd jó szórakozást a játékhoz.
 
@@ -302,5 +301,100 @@ Lokális IDE: Visual Studio Code
   - welcome.njk
 - server.js
 
-## 4. Tesztelés
-TBC
+
+## 4. **3. Beadandóhoz**
+
+### Szekvenciadiagram
+A szekvencia diagram egy felhasználó regisztrálását és azon belül is egy új klán létrehozását illuszrtrálja.
+![Szekvencia Diagram](images/sequence.png)
+
+### 4.1 Funkciók
+ - donate.js
+   * `donateGold()` : A funkció kiírja, hogy az adományozott érték után mennyi pénz marad a játékosnak.
+    A funkció akkor fut le mikor beírunk valamit a **donate** oldalon lévő mezőbe
+ - login.js 
+   * `loginOrRegister(e, which)` : Az `e` paraméter a kiváltott eventből jön. 
+   A `which` egy string mely vagy **login** vagy **register**. 
+   A `which` - től függően változik a modal működése. A `form` elküldésekor fut le
+   * `sendData(e, where, $error, $modal)`: AJAX-al elküldi az adatokat vagy a **register**-hez vagy **login**-hoz a `where`-től függően. A `form` elküldésekor fut le
+ - shop.js
+   * `ajaxShop(e)` : AJAX segítségével elküldjük az adatokat a szervernek, hogy mely tárgyat szeretnénk kérni. 
+   Ezt a választ a `<h1>`-be kapjuk vissza mintha az eladó mondaná a problémát, vagy sikeres tranzakciót
+ - clanMainPage.js
+    * `ajaxUpgrade(e)` : AJAX segítségével elküldjük az adatokat a szervernek, hogy melyik fejlesztést akarjuk megvásárolni.
+    * `disablePurchase()` : Ellenőrzi, hogy mennyi pénze van a céhnek és atttól függően letiltja a vásárlást a különböző fejlesztésekre. A **Buy** gomb lenyomásakor fut le 
+ - battleScript.js
+   * `battle(e)` : A harcért felelős fő funkció. Kiszámolja ki kezd egy érmeföldobással, és aszerint kezdi meg a játékot. Az oldalon lévő **Battle** gombbal fut le ez a funkció.
+   * `attack(who)` : A `who` paraméterben megadjuk, hogy ki támad kit. Ez a funkció kiszámolja, a sebzést és visszaadja a végén. 
+   A funkció random generál egy `dodge` és egy `lucky` változót. A `lucky` ha kisebb mint a `who` szerencséje és a `dodge` nem a kétszerese a `lucky`-nak akkor kritikus csapás történik azaz a sebzés a kétszerese lesz.
+   Ha a `dodge` legalább négyszerese a `lucky`-nak akkor a sebzés 0 lesz. Ha egyik sem sikerül akkor egy szimpla támadás történik.   
+   * `sendData(e, $modal)`: AJAX segítségével elküldjük a szervernek hogy milyen ajándékot választottunk.
+   * `rewardModal(e)`: Megjeleníti a választható díjakat egy modal dialogús ablakban   
+   * `equip(e)`: Frissíti az adatokat a játékos adatlapján aszerint melyik fegyvert választjuk. Ha elkezdődött a harc, akkor az életerőt már nem lehet módosítani
+
+### 4.2 Újítások szerveroldalon
+ - Egy elvégzett küldetésbe nem lehet visszamenni ha beírjuk a keresősávba a szükséges adatokat (QuestController)
+ - Harc implementálva JavaScripttel (QuestController.battle, battle.njk)
+ - Ajaxos funkciók névszerint: `ajaxRegister`, `ajaxLogin`, `ajaxComplete`, `ajaxBuy`, `ajaxPurchase` (UserController, QuestController, UpgradeController, ItemController)
+## 5. Tesztelés
+### 5.1 Selenium IDE Telepítése:
+0. Szükséges a Mozilla Firefox Telepítése
+1. Klikkeljünk az **Add to Firefox** gomb-ra
+2. Klikkeljünk a telepítésre.
+3. Klikkeljünk az újraindításra.
+
+Ellenőrízzük hogy látható a telepített **Selenium IDE** ikon. Ha nem akkor:
+1. Klikkeljünk a menüre azonbelül a testreszabásra, ahol látható lesz a **Selenium IDE**
+2. Fogjuk meg és tobjuk bele az eszköztárba a **Selenium IDE**-t
+
+Ha ez nem működik akkor:
+- Klikkeljünk a menüre és kapcsoljuk be a fejlesztői módot
+
+### 5.2 Teszteléshez felhasználók 
+ - E-mail: test@test.com, jelszó: test
+ - E-mail: test2@test.com, jelszó: test
+ - E-mail: test3@test.com, jelszó: test
+ - E-mail: test4@test.com, jelszó: test
+
+### 5.3 Selenium IDE-vel tesztelés
+
+A teszteket a **test@test.com** felhasználóval lehet alapból végrehajtani és szükséges a **test4@test.com** felhasználó a léptetésekhez. Ezeket az adatbázisban alapból beállítottam.
+Továbbá az adományozáshoz és a kard vásárláshoz szükséges hogy elegendő pénzmennyiség legyen. Ezeket az adatbázisban lehet módosítgatni, illetve küldetés gyors végrehajtásával szerezni.
+A fájlokat a **tests** mappában találjuk.
+
+ 1. Bejelentkezés
+    * Helyes adatokkal (TestSuite: login)
+    * Helytelenül (TestSuite: loginFail)
+ 2. Adományozás (TestSuite: donate) (alapból elég legalább 1 arany)
+ 3. Egy vas kard vásárlása (alapból 50 arany kell hozzá)
+    * Már van egy az eszköztárban (TestSuite: shop)
+    * Még nincs az eszköztárban (TestSuite: shopNew)
+ 4. Előléptetés/lefokozás (test4-et a TestClan2-ből)
+    * Elő (TestSuite: promote)
+    * Le (Testsuite: demote)
+
+Végeredményben mindegyiknek a végén hiba nélkül kell lefutnia. És ilyet kell látnunk
+
+![Hibátlan](images/errorless.png)
+
+## 6. Felhasználói dokumentáció
+
+### 6.1 Ajánlott követelmények 
+A program bármilyen operációs rendszeren futtatható. Javascript szükséges a harc típusú küldetésekhez
+
+### 6.2 Telepítés 
+#### Telepítés előtt pár szükséges lépés
+  - Kegy NodeJS és az npm amit itt lehet letölteni : [www.npmjs.com/get-npm](https://)
+  - Internet elérés
+
+#### Telepítés
+1. Látogasson el a 	[github.com/Telmike91/alkfejlszerver](https://) oldalra
+2. Itt kattintson a **"Clone and Download"** gombra, és azon belül kattintson a **"Download as Zip"** gombra.
+3. A letöltött állományt csomagoljuk ki
+4. **npm i** parancsot adjuk ki parancssorban a kicsomagolt állomány mappájában.
+5. **.env.example**-t nevezzük át **.env**-re és állítsuk be tetszés szerint 
+6. **npm start**-al elindíthatjuk a programot (Allapesetben localhost:3333-on fut a program)
+
+### 6.3 Használata
+1. Böngészőben a keresősávba írjuk be az **.env** fájlban megadott elérést. (Alapeset: localhost:3333)
+2. Regisztrálás és bejelentkezés után használhatjuk a programot.

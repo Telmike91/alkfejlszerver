@@ -49,11 +49,13 @@
             <td>{{ item.LCK }}</td>
             <td>{{ item.sell }}</td>
             {% if currentUser.username == player.username %}
-                <form method="POST">
-                    {{ csrfField }}
-                    <input type="hidden" name="item" value="{{ item.item_name }}">
-                    <td><input type="submit" class="btn" value="Sell"/></td>
-                </form>
+                <td>
+                    <form method="POST">
+                        {{ csrfField }}
+                        <input type="hidden" name="item" value="{{ item.item_name }}">
+                        <input type="submit" class="btn" value="Sell"/>
+                    </form>
+                </td>
             {% endif %}
         </tr>
     {% endfor %}

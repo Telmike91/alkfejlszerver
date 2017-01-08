@@ -17,31 +17,47 @@
 </div>
 {% endif %}
 
-<h1>Welcome to my humble shop! How can I be your service?</h1>
-<table class="table table-hover table-striped"
-    <thead>
-    <tr>
-        <th>Item name</th>
-        <th>Strength</th>
-        <th>Vitality</th>
-        <th>Luck</th>
-        <th>Cost</th>
-        <th></th>
-    </tr>  
-    </thead>  
-{% for item in items %}
-    <tr>
-        <td>{{ item.item_name }}</td>
-        <td>{{ item.STR }}</td>
-        <td>{{ item.VIT }}</td>
-        <td>{{ item.LCK }}</td>
-        <td>{{ item.buy }}</td>
-        <form method="POST">
-            {{ csrfField }}
-            <input type="hidden" name="item" value="{{ item.item_name }}">
-            <td><input type="submit" class="btn" value="Buy"/></td>
-        </form>
-    </tr>
-{% endfor %}
-</table>
+<h1 id="shopKeeper">Welcome to my humble shop! How can I be your service?</h1>
+<div class="container">
+    <p>Current Gold: <span id="currGold">{{ gold.gold }}</span><span class ="expense"></span></p>
+</div>
+<div id="data">
+    <table class="table table-hover table-striped"
+        <thead>
+        <tr>
+            <th>Item name</th>
+            <th>Strength</th>
+            <th>Vitality</th>
+            <th>Luck</th>
+            <th>Cost</th>
+            <th></th>
+        </tr>  
+        </thead>  
+    {% for item in items %}
+        <tr class="data">
+            <td>{{ item.item_name }}</td>
+            <td>{{ item.STR }}</td>
+            <td>{{ item.VIT }}</td>
+            <td>{{ item.LCK }}</td>
+            <td class="cost">{{ item.buy }}</td>
+            <td>
+                <form method="POST">
+                    {{ csrfField }}
+                    <input type="hidden" name="item" value="{{ item.item_name }}">
+                    <input type="submit" class="btn" value="Buy"/>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/scripts/shop.js"></script>
+{% endblock %}
+
+{% block styles %}
+    <link href="/money.css" rel='stylesheet' type='text/css'>
 {% endblock %}
