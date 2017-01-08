@@ -387,7 +387,7 @@ A program bármilyen operációs rendszeren futtatható. Javascript szükséges 
 
 ### 6.2 Telepítés 
 #### Telepítés előtt pár szükséges lépés
-  - Kegy NodeJS és az npm amit itt lehet letölteni : [www.npmjs.com/get-npm](https://www.npmjs.com/get-npm]()
+  - Kegy NodeJS és az npm amit itt lehet letölteni : [www.npmjs.com/get-npm](https://www.npmjs.com/get-npm])
   - Internet elérés
 
 #### Telepítés
